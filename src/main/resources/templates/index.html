@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Joblify - Home</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="container">
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/register}">Register Company</a>
+        <a th:href="@{/post-job}">Post a Job</a>
+    </nav>
+
+    <h1 th:text="${welcomeMessage}">Welcome</h1>
+
+    <div th:if="${param.success}" class="success">
+        <p th:if="${param.success[0] == 'registered'}">Company registered successfully!</p>
+        <p th:if="${param.success[0] == 'posted'}">Job posted successfully!</p>
+    </div>
+
+    <h2>Latest Job Listings</h2>
+    <div th:each="job : ${jobs}">
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <h3 th:text="${job.title}">Job Title</h3>
+            <p th:text="${job.description}">Description</p>
+            <p><strong>Salary:</strong> <span th:text="${job.salary}">0</span></p>
+            <p><strong>Experience:</strong> <span th:text="${job.experience}">None</span></p>
+            <p><strong>Company:</strong> <span th:text="${job.company.name}">Company</span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
