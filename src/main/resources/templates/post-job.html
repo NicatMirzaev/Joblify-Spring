@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Post Job Listing</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
-</head>
+<head th:replace="~{fragments :: head(title=#{post.title})}"></head>
 <body>
+
+<nav th:replace="~{fragments :: navbar}"></nav>
+
 <div class="container">
-    <h1>Post a New Job</h1>
-    <form th:action="@{/post-job}" th:object="${job}" method="post">
-        <div class="form-group">
-            <label>Job Title:</label>
-            <input type="text" th:field="*{title}">
-            <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+    <h1 class="page-title" th:text="#{post.heading}">Post a New Job</h1>
+    
+    <div class="form-container">
+        <form th:action="@{/post-job}" th:object="${job}" method="post">
+            <div class="form-group">
+                <label th:text="#{post.jobTitle}">Job Title:</label>
+                <input type="text" class="form-control" th:field="*{title}">
+                <span class="error-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{post.description}">Description:</label>
+                <textarea class="form-control" th:field="*{description}"></textarea>
+                <span class="error-text" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{post.salary}">Salary:</label>
+                <input type="number" step="0.01" class="form-control" th:field="*{salary}">
+                <span class="error-text" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{post.experience}">Experience:</label>
+                <input type="text" class="form-control" th:field="*{experience}">
+                <span class="error-text" th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{post.company}">Company:</label>
+                <select class="form-control" th:field="*{company}">
+                    <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}"></option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-submit" th:text="#{post.button}">Post Job</button>
+        </form>
+        
+        <div class="form-footer">
+            <a th:href="@{/}" th:text="#{post.back}">Back to Home</a>
         </div>
-        <div class="form-group">
-            <label>Description:</label>
-            <textarea th:field="*{description}"></textarea>
-            <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
-        </div>
-        <div class="form-group">
-            <label>Salary:</label>
-            <input type="number" step="0.01" th:field="*{salary}">
-            <p class="error" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></p>
-        </div>
-        <div class="form-group">
-            <label>Experience:</label>
-            <input type="text" th:field="*{experience}">
-            <p class="error" th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}"></p>
-        </div>
-        <div class="form-group">
-            <label>Company:</label>
-            <select th:field="*{company}">
-                <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}"></option>
-            </select>
-        </div>
-        <button type="submit">Post Job</button>
-    </form>
-    <br>
-    <a th:href="@{/}">Back to Home</a>
+    </div>
 </div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
 </body>
 </html>

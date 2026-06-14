@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Company Registration</title>
-    <link rel="stylesheet" th:href="@{/style.css}">
-</head>
+<head th:replace="~{fragments :: head(title=#{register.title})}"></head>
 <body>
+
+<nav th:replace="~{fragments :: navbar}"></nav>
+
 <div class="container">
-    <h1>Register Your Company</h1>
-    <form th:action="@{/register}" th:object="${company}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label>Company Name:</label>
-            <input type="text" th:field="*{name}">
-            <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+    <h1 class="page-title" th:text="#{register.heading}">Register Your Company</h1>
+    
+    <div class="form-container">
+        <form th:action="@{/register}" th:object="${company}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label th:text="#{register.name}">Company Name:</label>
+                <input type="text" class="form-control" th:field="*{name}">
+                <span class="error-text" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{register.email}">Email:</label>
+                <input type="email" class="form-control" th:field="*{email}">
+                <span class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{register.password}">Password:</label>
+                <input type="password" class="form-control" th:field="*{password}">
+                <span class="error-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+            
+            <div class="form-group">
+                <label th:text="#{register.logo}">Company Logo:</label>
+                <input type="file" class="form-control" name="logo" style="padding: 0; background: none; border: none;">
+            </div>
+            
+            <button type="submit" class="btn-submit" th:text="#{register.button}">Register</button>
+        </form>
+        
+        <div th:if="${error}" class="alert alert-error" style="margin-top: 1.5rem; margin-bottom: 0;">
+            <p th:text="${error}"></p>
         </div>
-        <div class="form-group">
-            <label>Email:</label>
-            <input type="email" th:field="*{email}">
-            <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        
+        <div class="form-footer">
+            <a th:href="@{/}" th:text="#{register.back}">Back to Home</a>
         </div>
-        <div class="form-group">
-            <label>Password:</label>
-            <input type="password" th:field="*{password}">
-            <p class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-        </div>
-        <div class="form-group">
-            <label>Company Logo:</label>
-            <input type="file" name="logo">
-        </div>
-        <button type="submit">Register</button>
-    </form>
-    <p th:if="${error}" class="error" th:text="${error}"></p>
-    <br>
-    <a th:href="@{/}">Back to Home</a>
+    </div>
 </div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
 </body>
 </html>

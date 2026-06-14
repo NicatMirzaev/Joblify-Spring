@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Joblify</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<nav th:fragment="navbar">
+    <a th:href="@{/}" class="nav-brand">Joblify</a>
+    <div class="nav-links">
+        <a th:href="@{/}" th:text="#{nav.home}">Home</a>
+        <a th:href="@{/register}" th:text="#{nav.register}" sec:authorize="hasRole('ANONYMOUS') or hasRole('COMPANY')">Register Company</a>
+        <a th:href="@{/post-job}" th:text="#{nav.postJob}" sec:authorize="hasRole('COMPANY')">Post a Job</a>
+        
+        <a th:href="@{/login}" th:text="#{nav.login}" class="btn-login" sec:authorize="isAnonymous()">Login</a>
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline;">
+            <button type="submit" class="btn-login" style="border:none; cursor:pointer;" th:text="#{nav.logout}">Logout</button>
+        </form>
+
+        <div class="lang-switch">
+            <span th:text="#{nav.lang}" style="color: var(--text-muted); font-size: 0.85rem; align-self: center;">Language</span>
+            <a href="?lang=en" th:text="#{nav.en}">EN</a>
+            <a href="?lang=ka" th:text="#{nav.ka}">KA</a>
+        </div>
+    </div>
+</nav>
+
+<footer th:fragment="footer">
+    <p>&copy; 2026 Joblify. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

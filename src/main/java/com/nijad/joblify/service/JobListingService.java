@@ -13,10 +13,12 @@ public class JobListingService {
 
     private final JobListingRepository jobListingRepository;
 
+    @org.springframework.cache.annotation.CacheEvict(value = "jobs", allEntries = true)
     public JobListing saveJobListing(JobListing jobListing) {
         return jobListingRepository.save(jobListing);
     }
 
+    @org.springframework.cache.annotation.Cacheable("jobs")
     public List<JobListing> getAllJobListings() {
         return jobListingRepository.findAll();
     }
